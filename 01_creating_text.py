@@ -4,8 +4,16 @@ import requests
 from bs4 import BeautifulSoup
 import codecs
 
-class Main():
-    def information(self, search_input, language):
+
+class Main:
+    def __init__(self, search_input, language):
+        self.search_input = search_input
+        self.language = language
+
+    def information(self):
+        search_input = self.search_input
+        language = self.language
+
         option_for_info = input("\n Now choose one of the options bellow, and press enter:"
                                 "\n 01 - to input your own adjusted text; or"
                                 "\n 02 - to get a text from wikipedia."
@@ -41,7 +49,6 @@ class Main():
 
                     '''creating dataframe'''
                     amount_of_characters_to_table = []
-                    accumulated_amount_of_characters_to_table = []
                     summary_of_sentence_adjusted_to_table = []
 
                     table_of_sentence = {
@@ -68,7 +75,6 @@ class Main():
                     table_of_sentence = pd.DataFrame(data=table_of_sentence)
 
                     '''creating column amount_of_characters_accumulated'''
-                    amount_of_characters_accumulated_to_table = []
                     table_of_sentence['amount_of_characters_accumulated'] = table_of_sentence[
                         'amount_of_characters'].cumsum()
                     table_of_sentence = table_of_sentence[
@@ -79,7 +85,6 @@ class Main():
                     table_of_sentence = table_of_sentence[table_of_sentence['amount_of_characters_accumulated'] < limit]
 
                     '''02 - merging text lines'''
-                    final_sentence_merged = []
                     final_sentence_merged = ''.join(table_of_sentence['text'])
 
                     f = open(search_input + "_for_post.txt", "w", encoding="utf-8")
@@ -97,7 +102,6 @@ class Main():
 
                     '''creating dataframe'''
                     amount_of_characters_to_table = []
-                    accumulated_amount_of_characters_to_table = []
                     summary_of_sentence_adjusted_to_table = []
 
                     table_of_sentence = {
@@ -124,7 +128,6 @@ class Main():
                     table_of_sentence = pd.DataFrame(data=table_of_sentence)
 
                     '''creating column amount_of_characters_accumulated'''
-                    amount_of_characters_accumulated_to_table = []
                     table_of_sentence['amount_of_characters_accumulated'] = table_of_sentence[
                         'amount_of_characters'].cumsum()
                     table_of_sentence = table_of_sentence[
@@ -135,7 +138,6 @@ class Main():
                     table_of_sentence = table_of_sentence[table_of_sentence['amount_of_characters_accumulated'] < limit]
 
                     '''02 - merging text lines'''
-                    final_sentence_merged = []
                     final_sentence_merged = ''.join(table_of_sentence['text'])
 
                     f = open(search_input + "_for_description.txt", "w", encoding="utf-8")
@@ -143,8 +145,9 @@ class Main():
                     f.close()
         print('\n Text created for your post.')
 
-    def ilustration(self, search_input):
+    def ilustration(self):
         print('\n Getting illustration for your post.')
+        search_input = self.search_input
 
         '''getting images'''
         try:
@@ -165,15 +168,17 @@ class Main():
 
         print('\n Uhuuuu!!! Process concluded.')
 
+
 if __name__ == '__main__':
     search_input = input("Write the theme that you would like to research on Wikipedia for your post."
                          "\n Note: please, write the theme as can be found on wikipedia URL."
                          "\n I.e from https://pt.wikipedia.org/wiki/Christina_Aguilera, just write the end Christina_Aguilera."
                          "\n Write here, and press enter >>>: ")
-    start = Main()
-    language = input("Write the language that you would like to research on Wikipedia for your post."
+    language = input("\nWrite the language that you would like to research on Wikipedia for your post."
                      "\n Set `prefix` to one of the two letter prefixes found on the `list of all Wikipedias http://meta.wikimedia.org/wiki/List_of_Wikipedias"
                      "\n I.e 'pt' for portuguese, 'en' for english or 'zh' for chinese."
                      "\n Write here, and press enter >>>: ")
-    start.information(search_input, language)
-    start.ilustration(search_input)
+
+    start = Main(search_input, language)
+    start.information()
+    start.ilustration()

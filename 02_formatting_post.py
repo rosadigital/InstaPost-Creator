@@ -3,8 +3,13 @@ from pptx import Presentation
 from pptx.util import Cm
 from PIL import Image
 
-class Main():
-    def creatingpost(self, text_created):
+
+class Main:
+    def __init__(self, text_created):
+        self.text_created = text_created
+
+    def creatingpost(self):
+        text_created = self.text_created
         print('--------------------------------')
         print('Starting to format your post.')
 
@@ -25,7 +30,7 @@ class Main():
         img_path = text_created + '.jpeg'
         left = Cm((19.05 - width_in_cm) / 2)
         top = Cm((13.33 - height_in_cm) / 2)
-        pic = slide.shapes.add_picture(img_path, left, top)
+        slide.shapes.add_picture(img_path, left, top)
 
         '''writing title'''
         title = slide.shapes.title
@@ -42,9 +47,10 @@ class Main():
         print('\nUhuuuu!!! Process concluded.')
 
 
-if __name__ =='__main__':
+if __name__ == '__main__':
     text_created = input("Write the theme that you wrote while running 01_creating_text.py."
                          "\n I.e if when running 01_creating_text.py you wrote Christina_Aguilera, now write againg Christina_Aguilera."
                          "\n Write here, and press enter >>>: ")
-    start = Main()
-    start.creatingpost(text_created)
+
+    start = Main(text_created)
+    start.creatingpost()
